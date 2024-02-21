@@ -75,4 +75,52 @@ class Ball
     if ( y < 0+(diameter*1/2) || y > height-(diameter*1/2) ) ySpeed *= -1;
   } //End bounce
   //
+  
+  void display () {
+    fill ( colour ) ;
+    ellipse ( x, y, diameter, diameter ) ;
+  } //END DISPLAY
+  
+  //Function help 
+  float left () {
+    return x-diameter/2 ;
+  }
+  float right () {
+    return x+diameter/2 ;
+  }
+  float up () {
+    return y-diameter/2 ;
+  }
+  float down () {
+    return y+diameter/2 ;
+  }
+  
+  class Paddle {
+    float x, y, xWidth, yHeight  ;
+    float xspeed, yspeed ;
+    color colour ;
+    //
+    Paddle (  float tempX, float tempY, float tempWidth, float tempHeight ) {
+      x = tempX ;
+      y = tempY ;
+      xWidth = tempWidth ;
+      yHeight  = tempHeight ;
+      xspeed = 0 ; 
+      yspeed = 0 ;
+      colour = ( 225 ) ;   
+    //
+  } //End paddle 
+  float left () {
+    return x-ballWidth/2 ;
+  }
+  float right () {
+    return  x+ballWidth/2 ;
+  }
+  float up () {
+    return y-ballHeight/2 ;
+  }
+  float down () {
+    return y+ballHeight/2 ;
+  }
 } //End Ball
+//

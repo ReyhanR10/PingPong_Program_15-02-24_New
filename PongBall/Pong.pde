@@ -1,11 +1,19 @@
 //Global Variables and Objects
-Ball myBall;
+Ball myBall ;
+
+Paddle paddleLeft ;
+Paddle paddleRight ;
+
+int scoreBoardLeft = 0 ;
+int scoreBoardRight = 0 ;
+
+
 Ball[] fireworks = new Ball[25];
 //
 color pongTableColour = 255; //ERROR: move to Table CLASS, 255 is full BLUE
 //
 void setup() {
-  size(600, 400); //fullScreen(); displayWidth, displayHeight
+  fullScreen () ; //fullScreen(); displayWidth, displayHeight
   /*ScreenSizeChecker() for Lnadscape, Protrait, Square views
    Updated Automatically for screen rotation on Android
    */
@@ -27,6 +35,13 @@ void draw() {
 //
 void keyPressed() {
 } //End keyPressed
+
+
+void keyReleased () {
+  
+  
+  
+} End KeyReleased 
 //
 void mousePressed() {
   for (int i=0; i < fireworks.length; i++) {
