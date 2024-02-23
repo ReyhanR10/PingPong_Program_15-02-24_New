@@ -8,6 +8,7 @@ class Ball
   color colour;
   float xSpeed, ySpeed, xSpeedChange=1.0, ySpeedChange=1.0;
   float gravity=0.0;
+  Boolean disappear=false;
   //static int count = 25; //Static Number for Amount of Ball Instances in a Firework
   //
   //Overloading Constructors or Mulitple Constructors
@@ -30,7 +31,7 @@ class Ball
     this.xSpeedChange = 1.0; //Break bounce physics
     this.ySpeedChange = 1.0; //Change speeds
   } //End Ball Constructor
-   //
+  //
   // Mulitple Constructors by identifying different parameters
   Ball (float xParameter, float yParameter, float gravityParameter) {
     //Ball(); //Place Holder
@@ -43,13 +44,26 @@ class Ball
     gravity = gravityParameter;
   } //End Firework Ball
   //
+  //Overloaded Constructor, Moved Ball Constructor
+  //  Must look like old Ball Instance and make Old  Ball Instance disappear
+  Ball(float xParameter, float yParameter, float diameterParameter, color colourParameter, float xSpeedParameter, float ySpeedParameter, float xSpeedChangeParameter, float ySpeedChangeParameter) {
+    this.x = xParameter; //spawn myBall in the middle of the display
+    this.y = yParameter;
+    this.diameter = diameterParameter;
+    this.colour = colourParameter;
+    this.xSpeed = xSpeedParameter;
+    this.ySpeed = ySpeedParameter;
+    this.xSpeedChange = xSpeedChangeParameter;
+    this.ySpeedChange = ySpeedChangeParameter;
+  } //End Moved Ball Constructor
+  //
   float xDirection() {
     float xDirection = int (random (-2, 2) ); //float, truncated, must be 2 minimum
     while ( xDirection == 0 ) {
       xDirection = int (random (-2, 2) ); //variable must be populated first
     }
     return xDirection;
-     } //End xDirection
+  } //End xDirection
   float yDirection() {
     float yDirection = int (random (-2, 2) ); //float, truncated, must be 2 minimum
     while ( yDirection == 0 ) {
@@ -62,7 +76,7 @@ class Ball
     ellipse(x, y, diameter, diameter); //Easter Egg: at bounce diameters changes
     fill(0);
     //
-      step(); //Manipulating the Variables
+    step(); //Manipulating the Variables
   }//End draw
   void step() {
     bounce();
@@ -74,53 +88,24 @@ class Ball
     if ( x < 0+(diameter*1/2) || x > width-(diameter*1/2) ) xSpeed *= -1;
     if ( y < 0+(diameter*1/2) || y > height-(diameter*1/2) ) ySpeed *= -1;
   } //End bounce
-  //
+  
   
   void display () {
-    fill ( colour ) ;
-    ellipse ( x, y, diameter, diameter ) ;
-  } //END DISPLAY
-  
-  //Function help 
+  fill ( colour ) ; //Color drawing 
+  ellipse ( x, y, diameter, diameter ) ;
+  }
   float left () {
-    return x-diameter/2 ;
-  }
-  float right () {
-    return x+diameter/2 ;
-  }
-  float up () {
-    return y-diameter/2 ;
-  }
-  float down () {
-    return y+diameter/2 ;
-  }
-  
-  class Paddle {
-    float x, y, xWidth, yHeight  ;
-    float xspeed, yspeed ;
-    color colour ;
-    //
-    Paddle (  float tempX, float tempY, float tempWidth, float tempHeight ) {
-      x = tempX ;
-      y = tempY ;
-      xWidth = tempWidth ;
-      yHeight  = tempHeight ;
-      xspeed = 0 ; 
-      yspeed = 0 ;
-      colour = ( 225 ) ;   
-    //
-  } //End paddle 
-  float left () {
-    return x-ballWidth/2 ;
-  }
-  float right () {
-    return  x+ballWidth/2 ;
-  }
-  float up () {
-    return y-ballHeight/2 ;
-  }
-  float down () {
-    return y+ballHeight/2 ;
-  }
+  return x-diameter/2 ;
+}
+float right () {
+  return x+diameter/2;
+}
+float up () {
+  return y-diameter/2 ;
+}
+float down () {
+  return y+diameter/2 ;
+}
+    
+  //
 } //End Ball
-//
