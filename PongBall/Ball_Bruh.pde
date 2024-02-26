@@ -8,7 +8,7 @@ class Ball
   color colour;
   float xSpeed, ySpeed, xSpeedChange=1.0, ySpeedChange=1.0;
   float gravity=0.0;
-  Boolean disappear=false;
+  Boolean disappear=false, netExplosion=false;
   //static int count = 25; //Static Number for Amount of Ball Instances in a Firework
   //
   //Overloading Constructors or Mulitple Constructors
@@ -44,7 +44,7 @@ class Ball
     gravity = gravityParameter;
   } //End Firework Ball
   //
-  //Overloaded Constructor, Moved Ball Constructor
+  // Overloaded Constructor, Moved Ball Constructor
   //  Must look like old Ball Instance and make Old  Ball Instance disappear
   Ball(float xParameter, float yParameter, float diameterParameter, color colourParameter, float xSpeedParameter, float ySpeedParameter, float xSpeedChangeParameter, float ySpeedChangeParameter) {
     this.x = xParameter; //spawn myBall in the middle of the display
@@ -88,13 +88,15 @@ class Ball
     if ( x < 0+(diameter*1/2) || x > width-(diameter*1/2) ) xSpeed *= -1;
     if ( y < 0+(diameter*1/2) || y > height-(diameter*1/2) ) ySpeed *= -1;
   } //End bounce
+  void goalExplosion(float xParameter, float yParamter, float gravityParameter) {
+    for (int i=0; i < fireworks.length; i++) {
+      fireworks[i] = new Ball(xParameter, yParamter, gravity);
+    }
+  } //End goal
   
   
-  void display () {
-  fill ( colour ) ; //Color drawing 
-  ellipse ( x, y, diameter, diameter ) ;
-  }
-  float left () {
+ // 
+ float left () {
   return x-diameter/2 ;
 }
 float right () {
@@ -106,6 +108,7 @@ float up () {
 float down () {
   return y+diameter/2 ;
 }
-    
+
+ 
   //
 } //End Ball
