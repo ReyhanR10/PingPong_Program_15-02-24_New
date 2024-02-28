@@ -2,6 +2,10 @@
 Ball myBall;
 Ball[] fireworks = new Ball[25];
 Ball movedBall;
+Star [] stars = new Star [ Star.starCount ] ; //
+
+Boolean startK = false ;
+Boolean startM = false ;
 
 Paddle PLeft ;
 Paddle PRight ;
@@ -15,6 +19,8 @@ float gravity=0.5;
 //
 void setup() {
   fullScreen () ; //fullScreen(); displayWidth, displayHeight
+  screenSizeCheck () ;
+  ellipseMode ( CENTER ) ;
   /*ScreenSizeChecker() for Landscape, Protrait, Square views
    Updated Automatically for screen rotation on Android
    */
@@ -38,7 +44,23 @@ void draw() {
   PRight.display () ;
   
   //
+  if ( mousePressed == true ) {
+    startMouse = true ; 
+  }
   
+  if ( startMouse == true ) {
+    background (0) ;
+  }
+  startStop () ;
+  
+   if (startKeyboard==true) {
+    for (int i = 0; i < stars.length; i++) {
+      stars[i].step();
+      ellipse(stars[i].getX(), stars[i].y, stars[i].radius, stars[i].radius);
+    }
+  } //End of startStop
+  
+  //BALL
   if ( myBall.disappear == true ) {
     //EMPTY IF
     //myBall.step(); //Keeps active the variables but not .draw
@@ -173,5 +195,19 @@ void mousePressed() {
   //Note: .draw is not being executed so
   //myBall.disappear = true;
 } //End mousePressed
+
+
+void mouseClicked () {
+  if ( startK == true ) {
+    createStars () ;
+    for ( int i = 0; i < stars.length ; i++ ) {
+      stars[i].TX =  mouseX ;
+      stars[i].TY = mouseY ;
+    }
+  }
+  
+  
+  
+}
 //
 //End DRIVER
