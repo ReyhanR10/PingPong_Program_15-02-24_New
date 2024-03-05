@@ -9,6 +9,12 @@ class Ball
   float xSpeed, ySpeed, xSpeedChange=1.0, ySpeedChange=1.0;
   float gravity=0.0;
   Boolean disappear=false, netExplosion=false;
+  //
+  //Construct bruh momment like fr 
+  
+   
+  //
+  
   //static int count = 25; //Static Number for Amount of Ball Instances in a Firework
   //
   //Overloading Constructors or Mulitple Constructors
@@ -20,6 +26,9 @@ class Ball
     int startY = height*1/2;
     int referentMeasure = ( width < height ) ? width : height ; //Review Ternary Operator
     //
+    
+   
+  
     //Object Variables
     this.x = startX; //spawn myBall in the middle of the display
     this.y = startY;
