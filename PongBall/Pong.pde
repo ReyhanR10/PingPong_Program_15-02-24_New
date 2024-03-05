@@ -127,17 +127,12 @@ void draw() {
     if ( myBall.right() > PRight.left() && myBall.y > PRight.up() && myBall.y < PRight.down()) {
     myBall.xSpeed = -myBall.xSpeed ;
     myBall.ySpeed = map( myBall.y - PRight.y, -PRight.yHeight/2, PRight.yHeight/2, -10, 10);
-  }
-  
-  
-  
+  }  
   textSize ( 60 ) ;
   textAlign ( CENTER, TOP ) ;
   //ScoreBoard WIN / WIN 
   text ( scoreBoardRight, width/2+30, 30 ) ; // Right and left ScoreBoard
-  text ( scoreBoardLeft, width/2-30, 30 ) ; //(
-
-  
+  text ( scoreBoardLeft, width/2-30, 30 ) ; // Same like the  on the top anyway.
 } //End draw
 //
 void keyPressed() {
