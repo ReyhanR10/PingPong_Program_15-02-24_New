@@ -1,16 +1,23 @@
 class Paddle {
   float x, y, xWidth, yHeight ;
+  float xNet, yNet, widthNet, heightNet ;
   float xSpeed, ySpeed ;
   color colour ;
+  
   //
   Paddle ( float tempX, float tempY, float tempWidth, float tempHeight ) {
+    /*netWidth = 
+    netHeight =
+    tableHeight =
+    */
+    
   x = tempX ;
   y = tempY ;
   xWidth = tempWidth ;
   yHeight = tempHeight  ;
   xSpeed = 0 ;
   ySpeed = 0 ;
-  colour = ( 225 ) ;
+  colour = ( 0 ) ;
   //
   } //End 
    void move () {
@@ -20,7 +27,7 @@ class Paddle {
  
   void display () {
     fill ( colour ) ;
-    rect ( x-xWidth, y-yHeight/2, xWidth, yHeight ) ;
+    rect ( x-xWidth/2, y-yHeight/2, xWidth, yHeight ) ;
   } //End 
   
   //Help me Plssssss

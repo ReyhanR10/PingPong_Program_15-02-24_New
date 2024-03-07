@@ -128,6 +128,8 @@ void draw() {
     myBall.xSpeed = -myBall.xSpeed ;
     myBall.ySpeed = map( myBall.y - PRight.y, -PRight.yHeight/2, PRight.yHeight/2, -10, 10);
   }  
+  //Rect for ScoreBoard 
+  
   textSize ( 60 ) ;
   textAlign ( CENTER, TOP ) ;
   //ScoreBoard WIN / WIN 
