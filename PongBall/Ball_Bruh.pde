@@ -9,12 +9,7 @@ class Ball
   float xSpeed, ySpeed, xSpeedChange=1.0, ySpeedChange=1.0;
   float gravity=0.0;
   Boolean disappear=false, netExplosion=false;
-  //
-  //Construct bruh momment like fr 
-  
-   
-  //
-  
+  float tableY, tableHeight, paddleX;
   //static int count = 25; //Static Number for Amount of Ball Instances in a Firework
   //
   //Overloading Constructors or Mulitple Constructors
@@ -26,9 +21,6 @@ class Ball
     int startY = height*1/2;
     int referentMeasure = ( width < height ) ? width : height ; //Review Ternary Operator
     //
-    
-   
-  
     //Object Variables
     this.x = startX; //spawn myBall in the middle of the display
     this.y = startY;
@@ -94,30 +86,25 @@ class Ball
     y += ySpeed * ySpeedChange;
   } //End step
   void bounce() {
-    if ( x < 0+(diameter*1/2) || x > width-(diameter*1/2) ) xSpeed *= -1;
-    if ( y < 0+(diameter*1/2) || y > height-(diameter*1/2) ) ySpeed *= -1;
+    float paddleX_Choose;
+    if (paddleX < )
+    if ( x < paddleX+(diameter*1/2) || x > width-(diameter*1/2) ) xSpeed *= -1;
+    if ( y < tableY+(diameter*1/2) || y > tableY+tableHeight-(diameter*1/2) ) ySpeed *= -1;
   } //End bounce
   void goalExplosion(float xParameter, float yParamter, float gravityParameter) {
     for (int i=0; i < fireworks.length; i++) {
-      fireworks[i] = new Ball(xParameter, yParamter, gravity);
+      fireworks[i] = new Ball(xParameter, yParamter, gravityParameter);
     }
   } //End goal
-  
-  
- // 
- float left () {
-  return x-diameter/2 ;
-}
-float right () {
-  return x+diameter/2;
-}
-float up () {
-  return y-diameter/2 ;
-}
-float down () {
-  return y+diameter/2 ;
-}
-
- 
   //
+  //Getters and Setter
+  void tableYUpdate( float tableYParameter, float tableHeightParameter, float tableWidthParameter, float tableXParameter, float paddleXParameter, float paddleYParameter, float paddleWidthParameter, float paddleHeightParameter ) {
+    tableY = tableYParameter;
+    tableHeight = tableHeightParameter;
+    tableWidth = tableXParameter + tableWidthParameter;
+    PaddleX = ( ballX > tableWidth*1/2 ) ?  paddleXParameter : yourPaddleXParameter ;
+    paddleY =(  ballX > tableWidth*1/2 ) ? mtPaddleYParameter :
+    paddleWidth = paddleWidthParameter;
+    paddleHeight = paddleHeightParameter;
+  }
 } //End Ball
