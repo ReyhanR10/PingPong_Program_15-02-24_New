@@ -5,6 +5,9 @@ Paddle myPaddle, yourPaddle;
 //
 color pongTableColour = 255; //ERROR: move to Table CLASS, 255 is full BLUE
 float gravity=0.5;
+int scoreBoardL = 0 ;
+int scoreBoardR = 0 ;
+
 //
 void setup() {
   size(600, 400); //fullScreen(); displayWidth, displayHeight
@@ -28,15 +31,40 @@ void draw() {
   //Paddles drawn before the ball
   myPaddle.draw();
   yourPaddle.draw();
+  //ScoreBoard where ball + = score ;
+  if ( myBall.right () > width ) {
+  scoreBoardL = scoreBoardL = +1 ;
+  myBall.x = width/2 ;
+  myBall.y = width/2 ;
+  }
+  if ( myBall.left () < 0 ) {
+    scoreBoardR = scoreBoardR +1 ;
+    myBall.x = width/2 ;
+    myBall.y = height/2 ;
+  }
+
+  
   //
   //Update the Paddle Position for the Ball, before drawing the Ball
   //This update does not need to run in draw(), only at end of setup()
   //Note: pick a paddle that will always be instantiated here
   //Note: easier to iterate through an array here than somewhere else
-  // float tableYParameter, float tableHeightParameter, float tableWidthParameter, float tableXParameter, float paddleXParameter, float paddleYParameter, float paddleWidthParameter, float paddleHeightParameter
-  myBall.tableYUpdate(myPaddle.tableY, myPaddle.tableHeight, myPaddle.tableHeight, myPaddle.tableWidth, myPaddle.tableX, myPaddle.paddleX, yourPaddle.paddleY, yourPaddle.paddleY, myPaddle.paddleWidthParameter, myPaddle.paddleHeightParameter, yourPaddle.paddleHeightParameter );
-  movedBall.tableYUpdate(myPaddle.tableY, myPaddle.tableHeight);
+  // float paddleWidthParameter, float myPaddleHeightParameter, float yourPaddleHeightParameter
+  myBall.tableYUpdate(myPaddle.tableX, myPaddle.tableY, myPaddle.tableWidth, myPaddle.tableHeight, myPaddle.paddleX, yourPaddle.paddleX, myPaddle.paddleY, yourPaddle.paddleY, myPaddle.paddleWidth, myPaddle.paddleHeight, yourPaddle.paddleHeight);
+  //movedBall.tableYUpdate(myPaddle.tableY, myPaddle.tableHeight, myPaddle.tableWidth, myPaddle.tableX, myPaddle.paddleX, yourPaddle.paddleX, myPaddle.paddleY, yourPaddle.paddleY, myPaddle.paddleWidth, myPaddle.paddleHeight, yourPaddle.paddleHeight);
   //
+  //Bounce 
+  /* if ( myBall.left() < myPaddle.right() && myBall.y > myPaddle.up() && myBall.y < myPaddle.down()){
+    myBall.xSpeed = -myBall.xSpeed;
+    myBall.ySpeed = map(myBall.y - myPaddle.paddleX, -myPaddle.paddleHeight/2, myPaddle.paddleHeight/2, -10, 10);
+  }
+  
+  if ( myBall.right() > yourPaddle.left() && myBall.y > yourPaddle.up() && myBall.y < yourPaddle.down()) {
+    myBall.xSpeed = -myBall.xSpeed;
+    myBall.ySpeed = map(myBall.y - yourPaddle.paddleY, -yourPaddle.paddleHeight/2, yourPaddle.paddleHeight/2, -10, 10);
+  } */
+  
+  
   if ( myBall.disappear == true ) {
     //EMPTY IF
     //myBall.step(); //Keeps active the variables but not .draw
@@ -59,6 +87,13 @@ void draw() {
   //Does "infront of ball" make a difference
   for (int i=0; i < fireworks.length; i++) {
     fireworks[i].draw(); //
+    //
+    //MyBall is bounce LOL HOPEFULLY
+   textSize ( 60 ) ;
+   textAlign ( CENTER, TOP ) ;
+   //SCOREBOARD
+   text ( scoreBoardL, width/2+30, 30 ) ;
+   text ( scoreBoardR, width/2-30,30 ) ;
   }
 } //End draw
 //
@@ -80,4 +115,4 @@ void mousePressed() {
   //myBall.disappear = true;
 } //End mousePressed
 //
-//End DRIVER
+//End DRIVER 

@@ -73,4 +73,17 @@ class Paddle {
     if ( key==CODED & keyCode==UP ) up=false;
     if ( key==CODED & keyCode==DOWN ) down=false;
   }
+  float left () {
+    return paddleY-tableWidth/2 ;
+  }
+  float right () {
+    return paddleY+tableWidth/2 ;
+  }
+  float up () {
+    return paddleY-tableHeight/2 ;
+  }
+  float down () {
+    return paddleY+tableHeight/2 ;
+  }
+
 } //End Paddle

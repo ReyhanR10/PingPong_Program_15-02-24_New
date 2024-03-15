@@ -9,7 +9,7 @@ class Ball
   float xSpeed, ySpeed, xSpeedChange=1.0, ySpeedChange=1.0;
   float gravity=0.0;
   Boolean disappear=false, netExplosion=false;
-  float tableY, tableHeight, paddleX;
+  float tableY, tableWidth, tableHeight, paddleX, paddleY, paddleWidth, paddleHeight;
   //static int count = 25; //Static Number for Amount of Ball Instances in a Firework
   //
   //Overloading Constructors or Mulitple Constructors
@@ -59,16 +59,16 @@ class Ball
   } //End Moved Ball Constructor
   //
   float xDirection() {
-    float xDirection = int (random (-2, 2) ); //float, truncated, must be 2 minimum
+    float xDirection = int (random (-3, 2) ); //float, truncated, must be 2 minimum
     while ( xDirection == 0 ) {
-      xDirection = int (random (-2, 2) ); //variable must be populated first
+      xDirection = int (random (-3, 2) ); //variable must be populated first
     }
     return xDirection;
   } //End xDirection
   float yDirection() {
-    float yDirection = int (random (-2, 2) ); //float, truncated, must be 2 minimum
+    float yDirection = int (random (-3, 2) ); //float, truncated, must be 2 minimum
     while ( yDirection == 0 ) {
-      yDirection = int (random (-2, 2) ); //variable must be populated first
+      yDirection = int (random (-3, 2) ); //variable must be populated first
     }
     return yDirection;
   } //End yDirection
@@ -86,10 +86,26 @@ class Ball
     y += ySpeed * ySpeedChange;
   } //End step
   void bounce() {
-    float paddleX_Choose;
-    if (paddleX < )
-    if ( x < paddleX+(diameter*1/2) || x > width-(diameter*1/2) ) xSpeed *= -1;
+    if ( x < tableWidth*1/2 ) {
+      if ( x < paddleX+paddleWidth+(diameter*1/2) ) xSpeed *= -1;
+    } else {
+      if ( x > paddleX-(diameter*1/2) ) xSpeed *= -1;
+    }
+    
+   /* if ( y < tableWidth*1/2 ) {
+      if ( y < paddleY-paddleWidth-(diameter*1/2 ) ) ySpeed *= -1 ;
+    } else {
+      if ( y  > paddleY+(diameter*1/2 ) ) ySpeed *= -1 ;
+    }  //Error Happened */
+    
+    
+    
+    
+    
+    
+    
     if ( y < tableY+(diameter*1/2) || y > tableY+tableHeight-(diameter*1/2) ) ySpeed *= -1;
+   
   } //End bounce
   void goalExplosion(float xParameter, float yParamter, float gravityParameter) {
     for (int i=0; i < fireworks.length; i++) {
@@ -98,13 +114,28 @@ class Ball
   } //End goal
   //
   //Getters and Setter
-  void tableYUpdate( float tableYParameter, float tableHeightParameter, float tableWidthParameter, float tableXParameter, float paddleXParameter, float paddleYParameter, float paddleWidthParameter, float paddleHeightParameter ) {
+  void tableYUpdate( float tableXParameter, float tableYParameter, float tableWidthParameter, float tableHeightParameter, float myPaddleXParameter, float yourPaddleXParameter, float myPaddleYParameter, float yourPaddleYParameter, float paddleWidthParameter, float myPaddleHeightParameter, float yourPaddleHeightParameter ) {
     tableY = tableYParameter;
     tableHeight = tableHeightParameter;
     tableWidth = tableXParameter + tableWidthParameter;
-    PaddleX = ( ballX > tableWidth*1/2 ) ?  paddleXParameter : yourPaddleXParameter ;
-    paddleY =(  ballX > tableWidth*1/2 ) ? mtPaddleYParameter :
+    paddleX = ( x < tableWidth*1/2 ) ? myPaddleXParameter : yourPaddleXParameter;
+    paddleY = ( x < tableWidth*1/2 ) ? myPaddleYParameter : yourPaddleYParameter;
     paddleWidth = paddleWidthParameter;
-    paddleHeight = paddleHeightParameter;
+    paddleHeight = ( x < tableWidth*1/2 ) ? myPaddleHeightParameter : yourPaddleHeightParameter;
   }
+  float left () {
+  return x-diameter/2 ;
+}
+float right () {
+  return x+diameter/2;
+}
+float up () {
+  return y-diameter/2 ;
+}
+float down () {
+  return +diameter/2 ;
+}
+
+
+  
 } //End Ball
