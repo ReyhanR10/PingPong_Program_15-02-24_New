@@ -90,15 +90,13 @@ class Ball
       if ( x < paddleX+paddleWidth+(diameter*1/2) ) xSpeed *= -1;
     } else {
       if ( x > paddleX-(diameter*1/2) ) xSpeed *= -1;
-    }
+    } 
     
    /* if ( y < tableWidth*1/2 ) {
       if ( y < paddleY-paddleWidth-(diameter*1/2 ) ) ySpeed *= -1 ;
     } else {
       if ( y  > paddleY+(diameter*1/2 ) ) ySpeed *= -1 ;
     }  //Error Happened */
-    
-    
     
     
     
@@ -124,16 +122,16 @@ class Ball
     paddleHeight = ( x < tableWidth*1/2 ) ? myPaddleHeightParameter : yourPaddleHeightParameter;
   }
   float left () {
-  return x-diameter/2 ;
+  return x-diameter*1/2 ;
 }
 float right () {
-  return x+diameter/2;
+  return x+diameter*1/2;
 }
 float up () {
-  return y-diameter/2 ;
+  return y-diameter*1/2 ;
 }
 float down () {
-  return +diameter/2 ;
+  return +diameter*1/2 ;
 }
 
 

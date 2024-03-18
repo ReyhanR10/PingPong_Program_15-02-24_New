@@ -54,15 +54,15 @@ void draw() {
   //movedBall.tableYUpdate(myPaddle.tableY, myPaddle.tableHeight, myPaddle.tableWidth, myPaddle.tableX, myPaddle.paddleX, yourPaddle.paddleX, myPaddle.paddleY, yourPaddle.paddleY, myPaddle.paddleWidth, myPaddle.paddleHeight, yourPaddle.paddleHeight);
   //
   //Bounce 
-  /* if ( myBall.left() < myPaddle.right() && myBall.y > myPaddle.up() && myBall.y < myPaddle.down()){
+  /*if ( myBall.left() < myPaddle.right() && myBall.y > myPaddle.up() && myBall.y < myPaddle.down()){
     myBall.xSpeed = -myBall.xSpeed;
-    myBall.ySpeed = map(myBall.y - myPaddle.paddleX, -myPaddle.paddleHeight/2, myPaddle.paddleHeight/2, -10, 10);
+    myBall.ySpeed = map(myBall.y - myPaddle.paddleX, -myPaddle.paddleHeight*1/2, myPaddle.paddleHeight*1/2, -8, 8);
   }
   
   if ( myBall.right() > yourPaddle.left() && myBall.y > yourPaddle.up() && myBall.y < yourPaddle.down()) {
     myBall.xSpeed = -myBall.xSpeed;
-    myBall.ySpeed = map(myBall.y - yourPaddle.paddleY, -yourPaddle.paddleHeight/2, yourPaddle.paddleHeight/2, -10, 10);
-  } */
+    myBall.ySpeed = map(myBall.y - yourPaddle.paddleY, -yourPaddle.paddleHeight*1/2, yourPaddle.paddleHeight*1/2, -8, 8);
+  } */ 
   
   
   if ( myBall.disappear == true ) {
