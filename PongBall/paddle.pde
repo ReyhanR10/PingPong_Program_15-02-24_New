@@ -1,89 +1,109 @@
-/* Known ERRORs
- - TBA
- */
-class Paddle {
-  //
-  //Global Variables
-  float tableX, tableY, tableWidth, tableHeight;
-  float netX, netY, netWidth, netHeight;
-  float paddleX, paddleY, paddleWidth, paddleHeight, paddleStartHeight, paddleTravelDistance;
-  color paddleColour;
-  Boolean up=false, down=false;
-  //
-  //Overloaded Constructor
-  //Purpose: left and right paddles
-  Paddle ( float paddleStartParameter, float ballDiameterParameter ) {
-    netWidth = ballDiameterParameter * 3;
-    paddleWidth = ballDiameterParameter * 1/2; //Ball Radius
-    tableY = height * 1/10;
-    tableHeight = height * 8/10;
-    //CAUTION: netX will have the same value
-    if ( paddleStartParameter == 0 ) netX = paddleStartParameter; //Adding to the netX
-    if ( paddleStartParameter == width ) {
-      netX = paddleStartParameter - netWidth *2 - paddleWidth; //Subtracting the netX
-    }
-    this.paddleX = netX + netWidth; //CAUTION: netX has two values, ERROR
-    if ( paddleStartParameter == width ) netX = paddleStartParameter - netWidth;
-    this.paddleStartHeight = 0.25; //if Easter Egg number must be tracked
-    this.paddleHeight = tableHeight * paddleStartHeight;
-    this.paddleY = tableY + ( tableHeight * 1/2 ) - ( paddleHeight *1/2 );
-    paddleColour = 0; //Grey Scale, not RGB, color ( int(random()), int(random()), int(random()) )
-    this.paddleTravelDistance = 1; //Easter Egg: paddle speed is 1 pixel
-  } //End Paddle Constructor
-  //
-  void draw() {
-    fill(paddleColour);
-    paddles();
-    fill(0); //Reset Defaults
-    //
-    //Arithmetic for Paddles
-    if ( up == true ) movePaddleUp();
-    if ( down == true ) movePaddleDown();
-  } //End draw
-  //
-  //VOIDS and Returns
-  //Draw Paddles
-  void paddles() {
-    rect(paddleX, paddleY, paddleWidth, paddleHeight);
-  } //End Paddles
-  void movePaddleDown() {
-    paddleY += paddleTravelDistance;
-    if ( paddleY > tableY+tableHeight-paddleHeight ) paddleY = tableY+tableHeight-paddleHeight; //ERROR Catch
-    //down = false; //ERROR: boolean reset means one paddle at a time, no gamie
-  } //End Move Paddles
-  void movePaddleUp() {
-    paddleY -= paddleTravelDistance;
-    if ( paddleY < tableY ) paddleY = tableY; //ERROR Catch
-    //up = false; //ERROR: boolean reset means one paddle at a time, no gamie
-  } //End Move Paddles
-  //
-  void keyPressedWASD() {
-    if ( key=='W' | key=='w' ) up=true ;
-    if ( key=='S' | key=='s' ) down=true;
-  }
-  void keyPressedARROW() {
-    if ( key==CODED & keyCode==UP ) up=true;
-    if ( key==CODED & keyCode==DOWN ) down=true;
-  }
-  void keyReleasedWASD() {
-    if ( key=='W' | key=='w' ) up=false ;
-    if ( key=='S' | key=='s' ) down=false;
-  }
-  void keyReleasedARROW() {
-    if ( key==CODED & keyCode==UP ) up=false;
-    if ( key==CODED & keyCode==DOWN ) down=false;
-  }
-  float left () {
-    return paddleY-tableWidth/2 ;
-  }
-  float right () {
-    return paddleY+tableWidth/2 ;
-  }
-  float up () {
-    return paddleY-tableHeight/2 ;
-  }
-  float down () {
-    return paddleY+tableHeight/2 ;
-  }
+//global vars
+//// keyPressed --> draw(); encapsulate later on.
 
-} //End Paddle
+class Paddle {
+ //class vars
+ float netX, netY, netW, netH;
+ float paddleX, paddleY, paddleW, paddleH, paddleHeightRef;
+ float paddleSpeed;
+ color paddleCol;
+ Boolean up = false, down = false;
+ 
+ float tableX = 0;
+ float tableW = displayWidth;
+ float tableH = displayHeight * 8/10;
+ float tableY = displayHeight * 1/10;
+ 
+ Paddle (float paddleStartParameter, float ballDiaParameter) {
+   netW = ballDiaParameter*2;
+   paddleW = ballDiaParameter*1/2;
+   paddleHeightRef = 0.25;
+   if (paddleStartParameter ==  0) {
+     netX = paddleStartParameter;
+   }
+   if (paddleStartParameter == displayWidth) {
+     netX = paddleStartParameter - (netW*2 + paddleW);
+   }
+   this.paddleX = netX + netW; //caution: netX has two possible values -- ERROR.
+   if (paddleStartParameter == displayWidth) {
+     netX = paddleStartParameter - (netW*2 + paddleW);
+   }
+   this.paddleH = tableH * paddleHeightRef;
+   this.paddleY = tableY + (tableH*1/2) - (paddleH*1/2);
+   this.paddleCol = #EE14F2 ;
+   this.paddleSpeed = 9;
+   this.up = false;
+   this.down = false;
+ }
+ 
+ void draw() {
+  fill (paddleCol);
+  paddles();
+  fill(0);
+ }//end draw
+ 
+ void paddles() {
+  rect(paddleX, paddleY, paddleW, paddleH);
+  if (up == true) {
+   movePaddleUp(); 
+  }
+  if (down == true) {
+   movePaddleDown(); 
+  }
+ }
+ 
+ void movePaddleUp() {
+  paddleY -= paddleSpeed; 
+  if (paddleY < tableY) { //error catch
+    paddleY = tableY;
+  }
+ }
+ 
+  void movePaddleDown() {
+  paddleY += paddleSpeed; //DOWN
+  if ((paddleY + paddleH) > (tableY + tableH)) {
+    paddleY = ((tableY + tableH) - paddleH);
+  }
+ }
+ 
+ void keyPressedWASD() {
+  if (key == 'w' || key == 'W') {
+    down = false;
+    up = true;
+  }
+  if ( key == 's' || key == 'S') {
+    up = false;
+    down = true;
+  }
+ }
+ 
+ void keyPressedARROW() {
+  if (key == CODED && keyCode == UP) {
+    down = false;
+    up = true;
+  }
+  if (key == CODED && keyCode == DOWN) {
+    up = false;
+    down = true;
+  } 
+ }
+ 
+ void keyReleasedWASD() {
+   if (key == 'w' || key == 'W') {
+    up = false;
+  }
+  if (key == 's' || key == 'S') {
+    down = false;
+  }
+ }
+ 
+ void keyReleasedARROW() {
+   if (key == CODED && keyCode == UP) {
+    up = false;
+  }
+  if (key == CODED && keyCode == DOWN) {
+    down = false;
+  }
+ }
+ 
+}// end class

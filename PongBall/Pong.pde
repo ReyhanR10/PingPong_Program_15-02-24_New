@@ -1,118 +1,134 @@
-//Global Variables and Objects
-Ball myBall, movedBall;
-Ball[] fireworks = new Ball[25];
-Paddle myPaddle, yourPaddle;
-//
-color pongTableColour = 255; //ERROR: move to Table CLASS, 255 is full BLUE
-float gravity=0.5;
-int scoreBoardL = 0 ;
-int scoreBoardR = 0 ;
+//Global Vars and objects
 
-//
+Ball myBall, movedBall;
+Ball[] fireworks = new Ball[20];
+Paddle lPaddle, rPaddle;
+
+color black=#000000, white=#FFFFFF, red=#951111, Lgreen=#27C149, gray=#CBCBCB;
+
+//Button exit;
+int SBL = 0 ;
+int SBR = 0 ;
+
+color tableColor = #14C0F2 ; //ERROR DumbAss
+
 void setup() {
-  size(600, 400); //fullScreen(); displayWidth, displayHeight
-  /*ScreenSizeChecker() for Landscape, Protrait, Square views
-   Updated Automatically for screen rotation on Android
+  noStroke();
+  fullScreen();
+  
+  //font = createFont("Roboto", 55);
+  /*screenSizeChecker(); for landscape, portrait, square views.
+   Updated automatically for screen rotation on android.
    */
-  //Population
-  myBall = new Ball(); // Both 1/2's of Constructor
-  for (int i=0; i < fireworks.length; i++) {
-    fireworks[i] = new Ball(width*-1, height*-1, 0.5);
+
+  //population
+  myBall = new Ball(); //both halves of the constructor.
+  for (int i = 0; i < fireworks.length; i++) {
+    fireworks[i] = new Ball(displayWidth * -1, displayHeight * -1, 0.5);
   }
-  movedBall = new Ball(width*-1, height*-1, myBall.diameter, myBall.colour, myBall.xSpeed, myBall.ySpeed, myBall.xSpeedChange, myBall.ySpeedChange);
-  myPaddle = new Paddle( 0, myBall.diameter );
-  yourPaddle = new Paddle( width, myBall.diameter );
-  //
-} //End setup
-//
+  movedBall = new Ball(displayWidth * -1, displayHeight * -1, myBall.dia, myBall.ballCol, myBall.xSpeed, myBall.ySpeed, myBall.xSpeedChange, myBall.ySpeedChange);
+  //exit = new Button(red, displayWidth*19/20, displayHeight*0, displayWidth*1/20, displayHeight*1/25);
+
+  rPaddle = new Paddle(0, myBall.dia);
+  lPaddle = new Paddle(displayWidth, myBall.dia);
+
+  myBall.tableUpdate(rPaddle.tableX, rPaddle.tableY, rPaddle.tableW, rPaddle.tableH);
+
+  for (int i = 0; i < fireworks.length; i++) {
+    fireworks[i] = new Ball(displayWidth * -1, displayHeight * -1, 0.5);
+  }
+}//endSetup
+
 void draw() {
-  background(pongTableColour); //ERROR: Night Mode is know in CLASS, not DRIVER
-  //
-  //Paddles drawn before the ball
-  myPaddle.draw();
-  yourPaddle.draw();
-  //ScoreBoard where ball + = score ;
-  if ( myBall.right () > width ) {
-  scoreBoardL = scoreBoardL = +1 ;
-  myBall.x = width/2 ;
-  myBall.y = width/2 ;
+  background(tableColor);
+
+  for (int i = 0; i < fireworks.length; i++) {
+    fireworks[i].draw();
   }
-  if ( myBall.left () < 0 ) {
-    scoreBoardR = scoreBoardR +1 ;
+  if ( myBall.right () > width ) {
+    SBL = SBL +1 ;
     myBall.x = width/2 ;
     myBall.y = height/2 ;
   }
-
-  
-  //
-  //Update the Paddle Position for the Ball, before drawing the Ball
-  //This update does not need to run in draw(), only at end of setup()
-  //Note: pick a paddle that will always be instantiated here
-  //Note: easier to iterate through an array here than somewhere else
-  // float paddleWidthParameter, float myPaddleHeightParameter, float yourPaddleHeightParameter
-  myBall.tableYUpdate(myPaddle.tableX, myPaddle.tableY, myPaddle.tableWidth, myPaddle.tableHeight, myPaddle.paddleX, yourPaddle.paddleX, myPaddle.paddleY, yourPaddle.paddleY, myPaddle.paddleWidth, myPaddle.paddleHeight, yourPaddle.paddleHeight);
-  //movedBall.tableYUpdate(myPaddle.tableY, myPaddle.tableHeight, myPaddle.tableWidth, myPaddle.tableX, myPaddle.paddleX, yourPaddle.paddleX, myPaddle.paddleY, yourPaddle.paddleY, myPaddle.paddleWidth, myPaddle.paddleHeight, yourPaddle.paddleHeight);
-  //
-  //Bounce 
-  /*if ( myBall.left() < myPaddle.right() && myBall.y > myPaddle.up() && myBall.y < myPaddle.down()){
-    myBall.xSpeed = -myBall.xSpeed;
-    myBall.ySpeed = map(myBall.y - myPaddle.paddleX, -myPaddle.paddleHeight*1/2, myPaddle.paddleHeight*1/2, -8, 8);
+  if ( myBall.left () < 0 ) {
+   SBR = SBR + 1 ;
+    myBall.x = width /2 ;
+    myBall.y = height/2 ;
   }
-  
-  if ( myBall.right() > yourPaddle.left() && myBall.y > yourPaddle.up() && myBall.y < yourPaddle.down()) {
-    myBall.xSpeed = -myBall.xSpeed;
-    myBall.ySpeed = map(myBall.y - yourPaddle.paddleY, -yourPaddle.paddleHeight*1/2, yourPaddle.paddleHeight*1/2, -8, 8);
-  } */ 
-  
-  
-  if ( myBall.disappear == true ) {
-    //EMPTY IF
-    //myBall.step(); //Keeps active the variables but not .draw
+
+  lPaddle.draw();
+  rPaddle.draw();
+
+  if (myBall.disappear == true) {
+    //empty IF
   } else {
     myBall.draw();
   }
-  if ( movedBall.disappear == true ) {
-    //EMPTY IF
-    //myBall.step(); //Keeps active the variables but not .draw
-  } else {
-    movedBall.draw();
-  }
-  // Trigger: Left Goal, Right Goal
-  // ERROR: Ball Instance still bounces
-  if ( myBall.x<(2*myBall.diameter) || myBall.x>( width - (2*myBall.diameter) ) ) myBall.goalExplosion(myBall.x, myBall.y, gravity);
-  //
-  //Turned off for first ball to wrok
-  //if ( movedBall.x<(2*movedBall.diameter) || movedBall.x>( width - (2*movedBall.diameter) ) ) movedBall.goalExplosion(movedBall.x, movedBall.y, gravity);
-  //
-  //Does "infront of ball" make a difference
-  for (int i=0; i < fireworks.length; i++) {
-    fireworks[i].draw(); //
-    //
-    //MyBall is bounce LOL HOPEFULLY
-   textSize ( 60 ) ;
-   textAlign ( CENTER, TOP ) ;
-   //SCOREBOARD
-   text ( scoreBoardL, width/2+30, 30 ) ;
-   text ( scoreBoardR, width/2-30,30 ) ;
-  }
-} //End draw
-//
-void keyPressed() {
-  myPaddle.keyPressedWASD();
-  yourPaddle.keyPressedARROW();
-} //End keyPressed
-//
-void keyReleased() {
-  myPaddle.keyReleasedWASD();
-  yourPaddle.keyReleasedARROW();
-}
-void mousePressed() {
-  //
 
-  movedBall = new Ball(mouseX, mouseY, myBall.diameter, myBall.colour, myBall.xSpeed, myBall.ySpeed, myBall.xSpeedChange, myBall.ySpeedChange);
-  //CAUTION: only brings forth myBall, not last known movedBall
-  //Note: .draw is not being executed so
-  //myBall.disappear = true;
-} //End mousePressed
-//
-//End DRIVER 
+  if (myBall.disappear == false  && myBall.x < myBall.dia || myBall.x > (displayWidth - myBall.dia)) { //goal - firework execution is based on x value. triggers are left goal and right goal.
+    myBall.netExplosion(myBall.x, myBall.y, 0.5);
+    for (int i = 0; i < fireworks.length; i++) {
+      fireworks[i].tableUpdate(rPaddle.tableX, rPaddle.tableY, rPaddle.tableW, rPaddle.tableH);
+    }
+  } else if (myBall.disappear == true && movedBall.x < movedBall.dia || movedBall.x > (displayWidth - movedBall.dia)) {
+    movedBall.netExplosion(movedBall.x, movedBall.y, 0.5);
+    for (int i = 0; i < fireworks.length; i++) {
+      fireworks[i].tableUpdate(rPaddle.tableX, rPaddle.tableY, rPaddle.tableW, rPaddle.tableH);
+    }
+  }
+  movedBall.draw();
+  //println(movedBall.x);
+
+  if (myBall.disappear == true) {
+    movedBall.paddleUpdate(rPaddle.paddleX, lPaddle.paddleX, rPaddle.paddleY, lPaddle.paddleY, rPaddle.paddleW, lPaddle.paddleW, rPaddle.paddleH, lPaddle.paddleH);
+  } else {
+    myBall.paddleUpdate(rPaddle.paddleX, lPaddle.paddleX, rPaddle.paddleY, lPaddle.paddleY, rPaddle.paddleW, lPaddle.paddleW, rPaddle.paddleH, lPaddle.paddleH);
+  }
+  textSize ( 65 ) ;
+  textAlign ( CENTER, TOP ) ;
+  // Score Board WIN / WIN ;
+  text ( SBR, width/2+30, 30 ) ; // Right and left ScoreBoard
+  text ( SBL, width/2-30, 30 ) ; //
+  
+}
+
+void keyPressed() {
+  /*if (key == 'p' || key == 'P') {
+    if (partyMode == false) {
+      partyMode = true;
+      println("partyMode on!");
+    } else {
+      partyMode = false;
+      println("partyMode off!");
+      tableColor = 150;
+    }
+    */
+  
+
+  rPaddle.keyPressedWASD();
+  lPaddle.keyPressedARROW();
+}
+
+void keyReleased() {
+  rPaddle.keyReleasedWASD();
+  lPaddle.keyReleasedARROW();
+}
+
+void mousePressed() {
+  println("ball moved!");
+  if (myBall.disappear == false) {
+    movedBall = new Ball(mouseX, mouseY, myBall.dia, myBall.ballCol, myBall.xSpeed, myBall.ySpeed, myBall.xSpeedChange, myBall.ySpeedChange);
+    movedBall.tableUpdate(rPaddle.tableX, rPaddle.tableY, rPaddle.tableW, rPaddle.tableH);
+    myBall.disappear = true;
+  } else {
+    movedBall = new Ball(mouseX, mouseY, myBall.dia, myBall.ballCol, movedBall.xSpeed, movedBall.ySpeed, movedBall.xSpeedChange, movedBall.ySpeedChange);
+    movedBall.tableUpdate(rPaddle.tableX, rPaddle.tableY, rPaddle.tableW, rPaddle.tableH);
+    myBall.disappear = true;
+  }
+
+  /* if (mouseX>=exit.x && mouseX<=exit.x+exit.w && mouseY>=exit.y && mouseY<=exit.y+exit.h) {
+   exit();
+   }*/
+}
+
+//endDRIVER

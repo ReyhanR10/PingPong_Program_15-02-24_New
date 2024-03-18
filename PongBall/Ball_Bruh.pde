@@ -1,139 +1,168 @@
-/* Known ERRORs
- - Night Mode: Ball Colour is Full BLUE
- */
-class Ball
-{
-  //Global Variables
-  float x, y, diameter;
-  color colour;
-  float xSpeed, ySpeed, xSpeedChange=1.0, ySpeedChange=1.0;
-  float gravity=0.0;
-  Boolean disappear=false, netExplosion=false;
-  float tableY, tableWidth, tableHeight, paddleX, paddleY, paddleWidth, paddleHeight;
-  //static int count = 25; //Static Number for Amount of Ball Instances in a Firework
-  //
-  //Overloading Constructors or Mulitple Constructors
-  //Ball Constructor
+/*known ERRORS:
+ night mode - ball color is full blue*/
+class Ball {
+  //Ball Global Vars
+  float x, y, dia;
+  color ballCol;
+  float xSpeed, ySpeed;
+  float xSpeedChange = 1.0, ySpeedChange = 1.0;
+  float gravity = 0.0;
+  boolean disappear = false;
+  boolean dumbAF ;
+  boolean pongBall;
+  float tableX, tableY, tableWidth, tableHeight, paddleX, paddleY, paddleWidth, paddleHeight ;
+  //static int count = 25
+
+
+  //ball constructor
   Ball () {
-    //Constructor Is ... hard coded, single variable object
-    //Local Variables, deleted at end of Constructor
-    int startX = width*1/2;
-    int startY = height*1/2;
-    int referentMeasure = ( width < height ) ? width : height ; //Review Ternary Operator
-    //
-    //Object Variables
-    this.x = startX; //spawn myBall in the middle of the display
-    this.y = startY;
-    this.diameter = referentMeasure * 1/20;
-    this.colour = color ( random(0, 255), random(255), random(255) ) ; //random(), random()-shortcut, casting from float to intin color var
-    this.xSpeed = xDirection(); //float, could be any number
-    this.ySpeed = yDirection(); //float, could be any number
-    //ERROR: random() will choose ZERO, not only -1 & 1
-    this.xSpeedChange = 1.0; //Break bounce physics
-    this.ySpeedChange = 1.0; //Change speeds
-  } //End Ball Constructor
-  //
-  // Mulitple Constructors by identifying different parameters
-  Ball (float xParameter, float yParameter, float gravityParameter) {
-    //Ball(); //Place Holder
+    //local vars
+    int startx = displayWidth*1/2;
+    int starty = displayHeight*1/2;
+    int referentMeasure = (displayWidth < displayHeight) ? displayWidth: displayHeight; //review ternary operator
+
+    //object vars
+    this.x = startx;
+    this.y = starty;
+    this.dia = referentMeasure*1/20;
+    this.ballCol = 0 ; //random(255) also applicable. Casting from float to int.
+    this.xSpeed = 3*xSpeedChange();
+    this.ySpeed = 3*ySpeedChange();
+    this.xSpeedChange = 1.0; //break bounce physics - change speed
+    this.ySpeedChange = 1.0;
+    pongBall = true;
+  } //end ball constructor
+
+  //firework constructor - multiple constructors by identifying different parameters.
+  Ball(float xParameter, float yParameter, float gravityParameter) {
+    //Ball(); //placeholder
     this.x = xParameter; //ERROR: trigger when the Ball enters goal area
     this.y = yParameter; //ERROR: trigger when the Ball enters goal area
-    this.colour = color ( random(0, 255), random(255), random(255) ) ; //random(), random()-shortcut, casting from float to intin color var
-    this.diameter = random(width*1/25); //returns unseen diamters
+    this.ballCol = color (int(random(255)), int(random(255)), int(random(255))) ; //random(), random()-shortcut, casting from float to intin color var
+    this.dia = random(width*1/70); //returns unseen diamters
     this.xSpeed = random(-5, 5); //Can return 0
     this.ySpeed = random(-5, 5); //Can return 0
     gravity = gravityParameter;
-  } //End Firework Ball
-  //
-  // Overloaded Constructor, Moved Ball Constructor
-  //  Must look like old Ball Instance and make Old  Ball Instance disappear
-  Ball(float xParameter, float yParameter, float diameterParameter, color colourParameter, float xSpeedParameter, float ySpeedParameter, float xSpeedChangeParameter, float ySpeedChangeParameter) {
-    this.x = xParameter; //spawn myBall in the middle of the display
+    pongBall = false;
+  }//end firework constructor
+
+  //movedBall constructor -- must look like old ball instance ( same color, same size ) and make old ball instance disappear.
+  Ball(float xParameter, float yParameter, float diaParameter, color colParameter, float xSpeedParameter, float ySpeedParameter, float xSpeedChangeParameter, float ySpeedChangeParameter) {
+    this.x = xParameter;
     this.y = yParameter;
-    this.diameter = diameterParameter;
-    this.colour = colourParameter;
+    this.dia = diaParameter;
+    this.ballCol = colParameter;
     this.xSpeed = xSpeedParameter;
     this.ySpeed = ySpeedParameter;
     this.xSpeedChange = xSpeedChangeParameter;
     this.ySpeedChange = ySpeedChangeParameter;
-  } //End Moved Ball Constructor
-  //
-  float xDirection() {
-    float xDirection = int (random (-3, 2) ); //float, truncated, must be 2 minimum
-    while ( xDirection == 0 ) {
-      xDirection = int (random (-3, 2) ); //variable must be populated first
+    pongBall = true;
+  }//end movedBall constructor
+
+  float xSpeedChange() {
+    float xSpeedChange = int (random(-2, 2));
+    while (xSpeedChange == 0) {
+      xSpeedChange = int (random(-2, 2)); //variable must be populated FIRST!
     }
-    return xDirection;
-  } //End xDirection
-  float yDirection() {
-    float yDirection = int (random (-3, 2) ); //float, truncated, must be 2 minimum
-    while ( yDirection == 0 ) {
-      yDirection = int (random (-3, 2) ); //variable must be populated first
+    return xSpeedChange;
+  }//end xSpeedChange
+
+  float ySpeedChange() {
+    float ySpeedChange = int (random(-2, 2)); //THIS IS THE CODE FOR CHANGING THE SPEED!!!!!!!!!!!11111!!!!!!1!11!!
+    while (ySpeedChange == 0) {
+      ySpeedChange = int (random(-2, 2));
     }
-    return yDirection;
-  } //End yDirection
-  void draw() { //ball
-    fill(colour);
-    ellipse(x, y, diameter, diameter); //Easter Egg: at bounce diameters changes
+    return ySpeedChange;
+  }// end ySpeedChange
+
+  void draw() {
+    fill(ballCol);
+    ellipse(x, y, dia, dia); //easter egg at bounce - dia will change to create the effect of a "squish".
     fill(0);
-    //
-    step(); //Manipulating the Variables
-  }//End draw
+
+    step(); //manipulating the variables.
+  }//endBallDraw
+
   void step() {
     bounce();
-    ySpeed += gravity; //Ball() is not affected, thus Pong Ball has no gravity
+    ySpeed += gravity; //Ball() is not affected - thus, the pong ball has no gravity.
     x += xSpeed * xSpeedChange;
     y += ySpeed * ySpeedChange;
-  } //End step
-  void bounce() {
-    if ( x < tableWidth*1/2 ) {
-      if ( x < paddleX+paddleWidth+(diameter*1/2) ) xSpeed *= -1;
+
+    if (this.x <= (tableWidth*1/2)) {
+      dumbAF = true;
     } else {
-      if ( x > paddleX-(diameter*1/2) ) xSpeed *= -1;
-    } 
-    
-   /* if ( y < tableWidth*1/2 ) {
-      if ( y < paddleY-paddleWidth-(diameter*1/2 ) ) ySpeed *= -1 ;
-    } else {
-      if ( y  > paddleY+(diameter*1/2 ) ) ySpeed *= -1 ;
-    }  //Error Happened */
-    
-    
-    
-    
-    
-    if ( y < tableY+(diameter*1/2) || y > tableY+tableHeight-(diameter*1/2) ) ySpeed *= -1;
-   
-  } //End bounce
-  void goalExplosion(float xParameter, float yParamter, float gravityParameter) {
-    for (int i=0; i < fireworks.length; i++) {
-      fireworks[i] = new Ball(xParameter, yParamter, gravityParameter);
+      dumbAF = false;
     }
-  } //End goal
-  //
-  //Getters and Setter
-  void tableYUpdate( float tableXParameter, float tableYParameter, float tableWidthParameter, float tableHeightParameter, float myPaddleXParameter, float yourPaddleXParameter, float myPaddleYParameter, float yourPaddleYParameter, float paddleWidthParameter, float myPaddleHeightParameter, float yourPaddleHeightParameter ) {
+  }//endBallStep
+
+  void bounce() {
+    if (pongBall == true) {
+      if (dumbAF == true) {
+        if (this.x < (paddleX + paddleWidth + (dia/2)) && this.y > paddleY && this.y < (paddleY + paddleHeight)) {
+          if (this.x > paddleX - dia) {
+            this.x = (paddleX + paddleWidth + (dia/2));
+            xSpeed *= -1;
+          } else {
+            xSpeed *= -1;
+          }
+        }
+      } else {
+        if (this.x > (paddleX - (dia/2)) && this.y > paddleY && this.y < (paddleY + paddleHeight )) {
+          if (this.x < paddleX + dia) {
+            this.x = (paddleX - (dia/2));
+            xSpeed *= -1;
+          } else {
+            xSpeed *= -1;
+          }
+        }
+      }
+      if (y < tableY + (dia/2) || y > (tableY + tableHeight - (dia/2))) {
+        ySpeed *= -1;
+      }
+      if (x < 0 + (dia/2) || x > tableWidth - (dia/2)) {
+        xSpeed *=  -1;
+      }
+    } else {
+      if (y < tableX + (dia/2) || y > (tableY + tableHeight - (dia/2))) {
+        ySpeed *= -1;
+      }
+      if (x < 0 + (dia/2) || x > tableWidth - (dia/2)) {
+        xSpeed *=  -1;
+      }
+    }
+  }//end ballBounce
+
+  void netExplosion(float xParameter, float yParameter, float gravityParameter) {
+    for (int i = 0; i < fireworks.length; i++) {
+      fireworks[i] = new Ball(xParameter, yParameter, gravityParameter);
+    }
+  }//end netExplosion
+
+  void tableUpdate(float tableXParameter, float tableYParameter, float tableWParameter, float tableHParameter) { //GETTERS AND SETTERS
+    tableX = tableXParameter;
     tableY = tableYParameter;
-    tableHeight = tableHeightParameter;
-    tableWidth = tableXParameter + tableWidthParameter;
-    paddleX = ( x < tableWidth*1/2 ) ? myPaddleXParameter : yourPaddleXParameter;
-    paddleY = ( x < tableWidth*1/2 ) ? myPaddleYParameter : yourPaddleYParameter;
-    paddleWidth = paddleWidthParameter;
-    paddleHeight = ( x < tableWidth*1/2 ) ? myPaddleHeightParameter : yourPaddleHeightParameter;
+    tableWidth = tableWParameter;
+    tableHeight = tableHParameter;
+  }
+
+  void paddleUpdate(float rPaddleXParameter, float lPaddleXParameter, float rPaddleYParameter, float lPaddleYParameter, float rPaddleWParameter, float lPaddleWParameter, float rPaddleHParameter, float lPaddleHParameter) {
+    paddleX = (x <= (tableWidth * 1/2)) ? rPaddleXParameter: lPaddleXParameter;
+    paddleY = (x <= (tableWidth * 1/2)) ? rPaddleYParameter: lPaddleYParameter;
+    paddleWidth = (x <= (tableWidth * 1/2)) ? rPaddleWParameter: lPaddleWParameter;
+    paddleHeight = (x <= (tableWidth * 1/2)) ? rPaddleHParameter: lPaddleHParameter;
   }
   float left () {
-  return x-diameter*1/2 ;
+  return x-dia/2 ;
 }
 float right () {
-  return x+diameter*1/2;
+  return x+dia/2;
 }
 float up () {
-  return y-diameter*1/2 ;
+  return y-dia/2 ;
 }
 float down () {
-  return +diameter*1/2 ;
+  return y+dia/2 ;
 }
 
-
-  
-} //End Ball
+}//end Ball
