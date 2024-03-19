@@ -1,5 +1,6 @@
-//global vars
-//// keyPressed --> draw(); encapsulate later on.
+//Global Variables Dude WHYY?
+
+//// keyPressed --> draw(); encapsulate later on OR LOL IDK WHEN.
 
 class Paddle {
  //class vars
@@ -13,6 +14,8 @@ class Paddle {
  float tableW = displayWidth;
  float tableH = displayHeight * 8/10;
  float tableY = displayHeight * 1/10;
+
+ //Line () ; alternative  design 
  
  Paddle (float paddleStartParameter, float ballDiaParameter) {
    netW = ballDiaParameter*2;
@@ -105,5 +108,10 @@ class Paddle {
     down = false;
   }
  }
+ void table () {
+   
+   //rect ( tableX, tableY, tableW, tableH ) ;
+   //Line () ;    
+ } //End buddy
  
-}// end class
+} // end class
