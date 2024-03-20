@@ -31,9 +31,9 @@ void setup() {
   }
   movedBall = new Ball(displayWidth * -1, displayHeight * -1, myBall.dia, myBall.ballCol, myBall.xSpeed, myBall.ySpeed, myBall.xSpeedChange, myBall.ySpeedChange);
   //exit = new Button(red, displayWidth*19/20, displayHeight*0, displayWidth*1/20, displayHeight*1/25);
-  //pongTable = new Paddle () ; //rect here bro 
   rightPaddle= new Paddle(0, myBall.dia);
   leftPaddle = new Paddle(displayWidth, myBall.dia);
+  pongTable = new Paddle() ; //rect here bro 
 
   myBall.tableUpdate(rightPaddle.tableX, rightPaddle.tableY, rightPaddle.tableW, rightPaddle.tableH);
 
@@ -44,6 +44,7 @@ void setup() {
 
 void draw() {
   background(tableColor);
+  pongTable.draw () ;
 
   for (int i = 0; i < fireworks.length; i++) {
     fireworks[i].draw();

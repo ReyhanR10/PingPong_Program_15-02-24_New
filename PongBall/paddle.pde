@@ -9,6 +9,7 @@ class Paddle {
  float paddleSpeed;
  color paddleCol;
  Boolean up = false, down = false;
+ boolean paddle ;
  
  float tableX = 0;
  float tableW = displayWidth;
@@ -18,6 +19,8 @@ class Paddle {
  //Line () ; alternative  design 
  
  Paddle (float paddleStartParameter, float ballDiaParameter) {
+   paddle = true ;
+   
    netW = ballDiaParameter*2;
    paddleW = ballDiaParameter*1/2;
    paddleHeightRef = 0.25;
@@ -39,20 +42,31 @@ class Paddle {
    this.down = false;
  }
  
+ Paddle () { //BROOOO IT'S pongTABLEEEEEEEEE !!!
+ paddle = false ;
+ }
+ 
  void draw() {
+   if  ( paddle == false ) {
+     fill ( 175   ) ;
+     rect ( tableX, tableY, tableW, tableH);
+   }
   fill (paddleCol);
   paddles();
   fill(0);
  }//end draw
  
  void paddles() {
-  rect(paddleX, paddleY, paddleW, paddleH);
+   if ( paddle == true ) {
+    fill ( paddleCol ) ; // THIS IS UR COLOR BROOOOOO .
+   rect(paddleX, paddleY, paddleW, paddleH) ;
   if (up == true) {
    movePaddleUp(); 
   }
   if (down == true) {
    movePaddleDown(); 
-  }
+     }
+   }
  }
  
  void movePaddleUp() {
@@ -108,10 +122,6 @@ class Paddle {
     down = false;
   }
  }
- void table () {
-   
-   //rect ( tableX, tableY, tableW, tableH ) ;
-   //Line () ;    
- } //End buddy
- 
-} // end class
+
+    
+} // End class
