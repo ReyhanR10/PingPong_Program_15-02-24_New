@@ -11,14 +11,18 @@ color black=#000000, white=#FFFFFF, red=#951111, Lgreen=#27C149, gray=#CBCBCB;
 //Button exit;
 int SBL = 0 ;
 int SBR = 0 ;
+int X1Width, X1Height ; 
 
 color tableColor = #29FFF2 ; //ERROR DumbAss
-
+float AXWidth, AXHeight ;
 void setup() {
   noStroke();
   fullScreen(); //FULLSCREENNNNNNNN BASSSSSSSSSS
+  AXWidth = +displayWidth ;
+  AXHeight = +displayHeight ;
   
-  
+  X1Width = displayWidth ;
+  X1Height = displayWidth ;
   //font = createFont("Roboto", 55);
   /*screenSizeChecker(); for landscape, portrait, square views.
    Updated automatically for screen rotation on android.
