@@ -9,13 +9,13 @@ class Paddle {
   float butX, butY, butW, butH;
   float paddleSpeed;
   color paddleCol, textCol, butCol;
-  int textSize;
+  int textSize ;
   String buttonText;
   boolean up = false, down = false;
   boolean paddle, button;
 
-  float tableX = 0;
-  float tableW = displayWidth;
+  float tableX = 0 ;
+  float tableW = displayWidth ;
   float tableH = displayHeight * 8/10;
   float tableY = displayHeight * 1/10;
 
@@ -159,10 +159,10 @@ class Paddle {
   }
 
   void createText (float textX, float textY, float textW, float textH) {
-    fill(textCol);
+    fill( textCol );
     textAlign (CENTER, CENTER);
     textFont(font, textSize);
     text(buttonText, textX, textY, textW, textH);
-    fill(255);
+    fill( 255 );
   }
 }// end class

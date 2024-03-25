@@ -1,4 +1,4 @@
-/*known ERRORS:
+/*known Bug / Error ;
  night mode - ball color is full blue*/
 class Ball {
   //Ball Global Vars
@@ -6,7 +6,7 @@ class Ball {
   color ballCol;
   float xSpeed, ySpeed;
   float xSpeedChange = 1.0, ySpeedChange = 1.0;
-  float gravity = 0.0;
+  float gravity = 0.0; //Gravity of Ball Itself
   boolean disappear = false;
   boolean mySide, pongBall;
   float tableX, tableY, tableW, tableH, paddleX, paddleY, paddleW, paddleH;
